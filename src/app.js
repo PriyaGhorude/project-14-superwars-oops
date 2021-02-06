@@ -25,8 +25,15 @@ const PLAYERS = [
 class Player {
     constructor(id, name, type) {
         // Create member variables and assign values
-        // Type your code
-
+         // Type your code
+       // item.id = id;
+       // item.name = name;
+       // item.type = type;
+        this.id = id;
+        this.name = name;
+        this.image = "images/super-" +(id + 1) + ".png";
+        this.strength =this.getRandomStrength();
+        this.type = type;
     }
 
     // getting random strength
@@ -38,9 +45,16 @@ class Player {
     view = () => {
         // Accumulate HTML template
         // Type your code here
+        var wrapper = document.createElement('div');
 
-    
-        return player;
+        let player = `<div class="player" data-id="${this.id}">
+        <img src="${this.image}">
+        <div class="name">${this.name}</div>
+        <div class="strength">${this.strength}</div>
+    </div>`
+    wrapper.innerHTML = player;
+    return wrapper.firstChild;
+    //return player;
     }
 }
 
@@ -50,7 +64,14 @@ class Superwar {
     // Create a field players 
     // Use Map method to loop through players argument and create new players
     // Type your code here
-
+    this.players = players.map((player, index) => {
+        if (index % 2 == 0) {
+            return new Player(index, player, "hero");
+        }
+        else {
+            return new Player(index, player, "villain");
+        }
+    });
     }
 
     // Display players in HTML
@@ -76,9 +97,7 @@ class Superwar {
             .forEach(player => fragment.append(player.view()));
         return fragment;
     }
-
 }
-
 
 window.onload = () => {
     const superwar = new Superwar(PLAYERS);
